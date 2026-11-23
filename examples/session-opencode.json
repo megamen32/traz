@@ -1,0 +1,22 @@
+{
+  "info": {
+    "id": "synthetic-opencode-example",
+    "title": "Synthetic fixture: explicit failed tool and successful verification",
+    "directory": "/example/project",
+    "synthetic": true
+  },
+  "messages": [
+    {
+      "info": {"id": "synthetic-message-1", "role": "user", "time": {"created": 1767261600000}},
+      "parts": [{"type": "text", "text": "Synthetic example: check a command and report its outcome."}]
+    },
+    {
+      "info": {"id": "synthetic-message-2", "role": "assistant", "time": {"created": 1767261601000}},
+      "parts": [
+        {"type": "tool", "tool": "bash", "callID": "synthetic-bash-1", "state": {"status": "error", "input": {"command": "missing-example-command"}, "error": "Command not found", "time": {"start": 1767261601000, "end": 1767261602000}}},
+        {"type": "tool", "tool": "bash", "callID": "synthetic-bash-2", "state": {"status": "completed", "input": {"command": "python3 -m unittest"}, "output": "Ran 3 tests. OK", "time": {"start": 1767261603000, "end": 1767261605000}}},
+        {"type": "step-finish", "reason": "stop", "tokens": {"input": 700, "output": 120}, "cost": 0.001}
+      ]
+    }
+  ]
+}

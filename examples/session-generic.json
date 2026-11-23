@@ -1,0 +1,12 @@
+{
+  "session_id": "synthetic-generic-example",
+  "metadata": {"synthetic": true, "purpose": "Demonstrate explicit unknown versus reported success"},
+  "events": [
+    {"type": "message", "role": "user", "timestamp": "2026-01-01T11:00:00Z", "content": "Synthetic example: inspect a file and verify the result."},
+    {"type": "tool_call", "tool": "read_file", "call_id": "synthetic-read-1", "timestamp": "2026-01-01T11:00:01Z", "arguments": {"path": "/example/config.json"}},
+    {"type": "tool_result", "call_id": "synthetic-read-1", "timestamp": "2026-01-01T11:00:02Z", "content": "A file was displayed; no explicit success status was supplied."},
+    {"type": "tool_call", "tool": "exec_command", "call_id": "synthetic-check-1", "timestamp": "2026-01-01T11:00:03Z", "arguments": {"cmd": "python3 -m unittest"}},
+    {"type": "tool_result", "call_id": "synthetic-check-1", "timestamp": "2026-01-01T11:00:05Z", "status": "success", "content": "3 tests passed"},
+    {"type": "message", "role": "assistant", "timestamp": "2026-01-01T11:00:06Z", "content": "The declared verification completed. This fixture proves no real task improvement."}
+  ]
+}

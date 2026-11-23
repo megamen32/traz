@@ -1,0 +1,177 @@
+{
+  "schema_version": "0.1",
+  "status": "expert_hypotheses",
+  "description": "Directed, sparse suggestions after causal framing. All initial cells are unvalidated hypotheses. Missing cells are unknown. Identical parameter pairs require separation, not a matrix lookup.",
+  "cells": [
+    {
+      "improve": "latency",
+      "protect": "correctness",
+      "principles": ["P01", "P02", "P03"],
+      "mechanism": "Precompute or determinize stable work and reserve independent checks for relevant failure modes.",
+      "conditions": "The stable subtask and acceptance criteria are specified; verification overhead is measured.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "latency",
+      "protect": "completion",
+      "principles": ["P04", "P06", "P12"],
+      "mechanism": "Replace repeated ineffective work with a discriminating test or a source correction while preserving all acceptance criteria.",
+      "conditions": "The repeat is not justified waiting and the proposed change preserves required deliverables.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "tokens",
+      "protect": "correctness",
+      "principles": ["P01", "P05", "P10"],
+      "mechanism": "Use an existing deterministic check and a compact evidence-preserving context instead of repeatedly interpreting the whole history.",
+      "conditions": "The compact context retains necessary constraints and sources; removed detail is recoverable.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "cost",
+      "protect": "correctness",
+      "principles": ["P01", "P02", "P11"],
+      "mechanism": "Route routine work to a measured sufficient mechanism and escalate only when its acceptance boundary is unmet.",
+      "conditions": "Equivalent task results are evaluated and all routing, fallback and verification costs are counted.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "tokens",
+      "protect": "context_relevance",
+      "principles": ["P01", "P02"],
+      "mechanism": "Reuse previously obtained evidence only while its inputs and source version remain valid, and refresh when the state changes.",
+      "conditions": "Freshness is observable and missed changes can be measured; v0.1 has no automatic validator for this protected parameter.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "correctness",
+      "protect": "cost",
+      "principles": ["P03", "P06", "P10"],
+      "mechanism": "Move a recurring correctness invariant into its existing owning tool or check instead of adding repeated general reasoning.",
+      "conditions": "The invariant is causal and stable, and its implementation and maintenance cost is included.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "autonomy",
+      "protect": "safety",
+      "principles": ["P08", "P09", "P12"],
+      "mechanism": "Keep authorized reversible work autonomous, verify its result, and intervene on meaningful constraint deviations.",
+      "conditions": "The mandate is explicit and the relevant effects are reversible or otherwise bounded; required approvals remain required.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "autonomy",
+      "protect": "controllability",
+      "principles": ["P08", "P09", "P10"],
+      "mechanism": "Separate task execution from existing stop and rollback controls, so autonomy does not require ignoring supervision.",
+      "conditions": "Controls operate on the actual task process and their effect is verified, not merely acknowledged.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "knowledge_reuse",
+      "protect": "context_relevance",
+      "principles": ["P02", "P05", "P07"],
+      "mechanism": "Retain the full source archive while retrieving only scoped findings and their evidence for the present task.",
+      "conditions": "Applicability metadata is available, negative evidence is retained and omitted source detail remains retrievable.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "knowledge_reuse",
+      "protect": "simplicity",
+      "principles": ["P06", "P07", "P10"],
+      "mechanism": "Reuse existing archives and test runners; retire ineffective rules instead of creating another permanent service for each learning.",
+      "conditions": "The required functions fit existing components and removal preserves provenance and accepted behavior.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "verifiability",
+      "protect": "latency",
+      "principles": ["P01", "P02", "P12"],
+      "mechanism": "Capture acceptance evidence as work occurs and reuse task-specific checks rather than reconstructing proof at the end.",
+      "conditions": "Evidence capture is low overhead and the acceptance checks cover the material claim.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "adaptability",
+      "protect": "predictability",
+      "principles": ["P03", "P07", "P08"],
+      "mechanism": "Separate experimental changes from the active validated configuration and advance only scoped measured interventions.",
+      "conditions": "Configurations are versioned, comparisons are meaningful and a previous working version can be restored.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "resilience",
+      "protect": "latency",
+      "principles": ["P04", "P09", "P11"],
+      "mechanism": "Classify observed failure conditions and select a bounded retry or alternative using relevant evidence.",
+      "conditions": "An alternative exists, duplicate side effects are controlled and transient versus persistent failures can be distinguished adequately.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "maintainability",
+      "protect": "correctness",
+      "principles": ["P03", "P06", "P10"],
+      "mechanism": "Remove duplicated ownership and place the invariant in one canonical implementation with a relevant regression check.",
+      "conditions": "The invariant is genuinely shared and the refactor preserves observable contracts.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "context_relevance",
+      "protect": "tokens",
+      "principles": ["P02", "P05", "P10"],
+      "mechanism": "Retrieve source-backed evidence by the current decision and scope, then load further detail only if it changes the decision.",
+      "conditions": "Retrieval misses are measured and summaries preserve important exceptions and constraints.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "scalability",
+      "protect": "simplicity",
+      "principles": ["P01", "P02", "P10"],
+      "mechanism": "Batch independent existing work and index only required views before introducing additional coordination components.",
+      "conditions": "The measured bottleneck is compatible with batching or indexing and task isolation is preserved.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    },
+    {
+      "improve": "completion",
+      "protect": "cost",
+      "principles": ["P04", "P09", "P12"],
+      "mechanism": "Detect a specific unmet deliverable or unproductive approach and direct remaining work at its acceptance condition.",
+      "conditions": "Completion criteria are stable, interruption does not discard useful running work, and supervisory overhead is bounded.",
+      "evidence_status": "hypothesis",
+      "confidence": null,
+      "evidence": []
+    }
+  ]
+}

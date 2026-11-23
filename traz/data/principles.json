@@ -1,0 +1,102 @@
+{
+  "schema_version": "0.1",
+  "status": "proposed_mechanisms",
+  "principles": [
+    {
+      "id": "P01",
+      "name": "Determinize stable decisions",
+      "mechanism": "Move a well-specified repeated decision into a reproducible tool or check, leaving interpretation to the agent.",
+      "applicability": "Inputs, expected behavior and failure conditions are stable enough to specify and test.",
+      "tradeoffs": "A premature rule can freeze a wrong assumption. Include maintenance and exception handling in its cost.",
+      "triz_connection": "Transfer functions to an existing subsystem; preliminary action; removal of repeated reasoning."
+    },
+    {
+      "id": "P02",
+      "name": "Apply complexity conditionally",
+      "mechanism": "Invoke an expensive review, model or mechanism only when a measured condition justifies it.",
+      "applicability": "There is a useful low-cost routing signal and a bounded consequence for a missed trigger.",
+      "tradeoffs": "Detection can miss difficult cases or become more expensive than the work it saves.",
+      "triz_connection": "Separation by condition; local quality; dynamic adjustment."
+    },
+    {
+      "id": "P03",
+      "name": "Verify independently",
+      "mechanism": "Check a result against an independently controlled acceptance artifact or executor.",
+      "applicability": "A testable external acceptance condition exists or can be defined before the change.",
+      "tradeoffs": "Verification costs resources and may share blind spots with implementation. A second opinion is not automatically independent evidence.",
+      "triz_connection": "Separation between system roles; feedback; intermediary."
+    },
+    {
+      "id": "P04",
+      "name": "Revise falsified hypotheses",
+      "mechanism": "When repeated evidence contradicts the working explanation, select a discriminating test and update the explanation before retrying.",
+      "applicability": "Repeated failures have comparable inputs and a new test can distinguish plausible causes.",
+      "tradeoffs": "Changing strategy too quickly can abandon valid recovery from a transient condition.",
+      "triz_connection": "Cause-effect analysis; overcoming fixation; separation by observed condition."
+    },
+    {
+      "id": "P05",
+      "name": "Refresh context with evidence",
+      "mechanism": "Give a fresh reasoning pass a compact factual state, source links and the unresolved question.",
+      "applicability": "Long context contains stale assumptions or contradictory plans and the relevant facts can be preserved.",
+      "tradeoffs": "Summaries can omit constraints. Context refresh must preserve the task, authority and unresolved evidence.",
+      "triz_connection": "Separation in time and between roles; removal of harmful accumulated state."
+    },
+    {
+      "id": "P06",
+      "name": "Remove the source of harm",
+      "mechanism": "Repair or remove the faulty function at its owner instead of repeatedly compensating for its symptoms.",
+      "applicability": "The causal source is sufficiently established and the owning component can be changed within the task mandate.",
+      "tradeoffs": "A broad root-cause intervention can exceed the needed scope. Verify dependencies and the effect of removal.",
+      "triz_connection": "Function analysis; trimming; elimination of harmful interactions."
+    },
+    {
+      "id": "P07",
+      "name": "Learn from measured outcomes",
+      "mechanism": "Turn observations into scoped hypotheses, compare interventions and retain positive as well as negative outcomes.",
+      "applicability": "Future tasks have enough relevant similarity for a bounded comparison and reuse.",
+      "tradeoffs": "Analysis, retrieval and stale rules can cost more than they save. Prevent leakage between discovery and evaluation.",
+      "triz_connection": "Feedback; self-service; reuse of existing informational resources."
+    },
+    {
+      "id": "P08",
+      "name": "Make interventions reversible",
+      "mechanism": "Version the changed artifact and define a tested path to restore the previous state or disable the intervention.",
+      "applicability": "The effect can be isolated or compensated for, and the restoration condition is explicit.",
+      "tradeoffs": "A source-code rollback may not undo external writes or migrated data. Reversibility must be tested at the affected boundary.",
+      "triz_connection": "Separation in time; temporary action; recovery after useful action."
+    },
+    {
+      "id": "P09",
+      "name": "Control on meaningful deviation",
+      "mechanism": "Intervene when progress, outcomes or constraints deviate from a declared expectation rather than supervising every action.",
+      "applicability": "There is an observable progress or outcome signal and an appropriate intervention budget.",
+      "tradeoffs": "Poor progress proxies can reward busywork or misclassify legitimate waiting. Thresholds need contextual calibration.",
+      "triz_connection": "Feedback; separation by condition; economical use of supervisory resources."
+    },
+    {
+      "id": "P10",
+      "name": "Place the function at the sufficient level",
+      "mechanism": "Move a function to the smallest existing layer that can perform it correctly, removing redundant higher-level work.",
+      "applicability": "An existing tool, interface, test or configuration already owns the relevant state or invariant.",
+      "tradeoffs": "A lower layer may lack intent or context. Preserve a clear contract and avoid hidden global behavior.",
+      "triz_connection": "Separation between system levels; redistribution of functions; trimming."
+    },
+    {
+      "id": "P11",
+      "name": "Route using scoped evidence",
+      "mechanism": "Select the model, tool or strategy using relevant measured outcomes and the current task constraints.",
+      "applicability": "Alternatives exist, their interfaces are compatible and evidence is scoped to the present environment.",
+      "tradeoffs": "A router adds overhead and can overfit stale or sparse data. Keep a transparent fallback and report uncertainty.",
+      "triz_connection": "Separation by condition; local quality; dynamic resource assignment."
+    },
+    {
+      "id": "P12",
+      "name": "Ground completion in acceptance evidence",
+      "mechanism": "Determine completion from the agreed deliverables and observed acceptance results.",
+      "applicability": "The requested outcome can be associated with checkable artifacts or explicit external acceptance.",
+      "tradeoffs": "Overly elaborate gates can delay simple work. A fixed gate can miss a changed user goal and must retain the original scope.",
+      "triz_connection": "Feedback; elimination of redundant status inference; alignment of the useful function with its outcome."
+    }
+  ]
+}

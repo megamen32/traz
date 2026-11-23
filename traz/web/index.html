@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TRAZ | Evidence, then improvement</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <header><span class="wordmark">TRAZ<span> / 0.1</span></span><span class="local"><i></i> LOCAL WORKSPACE</span></header>
+  <main>
+    <section class="intro"><div class="eyebrow">THEORY OF RESOLVING AGENTIC CONTRADICTIONS</div><h1>Keep the experience.<br><em>Test the improvement.</em></h1><p>Turn session history into observations, experiments and scoped evidence. Preserve every original. Let results change the recommendations.</p></section>
+    <section class="overview" aria-label="Workspace counts"><div><span id="session-count">0</span><small>ARCHIVED SNAPSHOTS</small></div><div><span id="proposal-count">0</span><small>CANDIDATE EXPERIMENTS</small></div><div><span id="evidence-count">0</span><small>REPORTED EVALUATIONS</small></div></section>
+    <div id="notice" role="status" aria-live="polite"></div>
+    <div class="columns">
+      <section class="panel"><div class="section-title"><span class="step">01</span><h2>Add experience</h2></div><p class="muted">Codex rollout, OpenCode export, JSON/JSONL or text. Originals remain in your private corpus.</p>
+        <form id="upload-form"><label for="project">Project scope</label><input id="project" value="default" maxlength="200" required><label for="format">Transcript format</label><select id="format"><option value="auto">Detect automatically</option><option value="codex">Codex rollout</option><option value="opencode">OpenCode export</option><option value="jsonl">JSONL events</option><option value="text">Plain text</option></select><label class="file-area" for="transcript"><strong>Select session files</strong><span>Maximum 32 MiB per file in this interface</span><input id="transcript" type="file" multiple required></label><button id="upload-button" type="submit">Archive &amp; analyze <span>↗</span></button></form>
+      </section>
+      <section class="panel"><div class="section-title"><span class="step">02</span><h2>Check the change</h2></div><p class="muted">Upload a paired experiment report after running the baseline and candidate on held-out tasks. Analysis alone does not establish effectiveness.</p><ol class="principles"><li><span>Preserve</span> Original evidence stays intact.</li><li><span>Propose</span> A diagnosis remains a hypothesis.</li><li><span>Evaluate</span> Include verification and analysis costs.</li><li><span>Revise</span> Record regressions as well as wins.</li></ol><form id="evaluate-form"><label for="evaluation">Evaluation JSON</label><input id="evaluation" type="file" accept=".json,application/json" required><button class="secondary" type="submit">Record experiment <span>↗</span></button></form></section>
+    </div>
+    <section class="panel history"><div class="section-title"><span class="step">03</span><h2>Session corpus</h2><button class="small" id="refresh" type="button">Refresh</button></div><div id="sessions" class="empty">Your first session starts the evidence trail.</div></section>
+    <section class="panel"><div class="section-title"><span class="step">04</span><h2>Candidate experiments</h2></div><p class="muted">Mechanical signals suggest where to investigate. They do not prove a root cause.</p><div id="proposals" class="empty">Upload and analyze a session to inspect possible improvements.</div></section>
+    <section class="panel"><div class="section-title"><span class="step">05</span><h2>Evidence inspector</h2><button class="small" id="matrix" type="button">Inspect matrix</button></div><pre id="details">Select a session or experiment to inspect its evidence.</pre></section>
+  </main><footer>TRAZ is an experimental method. Initial matrix entries are hypotheses. Imported outcomes remain reported evidence.</footer>
+</body>
+</html>

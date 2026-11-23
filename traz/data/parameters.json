@@ -1,0 +1,187 @@
+{
+  "schema_version": "0.1",
+  "status": "provisional",
+  "description": "A draft measurement vocabulary. Directions refer to the named measurement, not an unconditional goal. Units and rubrics must be fixed before comparison.",
+  "parameters": [
+    {
+      "id": "latency",
+      "name": "Time to accepted completion",
+      "direction": "minimize",
+      "unit": "seconds",
+      "definition": "Elapsed time from task admission to externally accepted completion.",
+      "measurement": "Record wall-clock duration and account for retrospective and verification overhead. Report unsuccessful runs separately with their consumed time.",
+      "limitations": "A faster failed or prematurely stopped run is not an improvement. External waiting and active agent time should also be distinguishable."
+    },
+    {
+      "id": "tokens",
+      "name": "Total token consumption",
+      "direction": "minimize",
+      "unit": "tokens",
+      "definition": "All measured model tokens consumed by task execution and its required supporting work.",
+      "measurement": "Sum execution, retrieval, retrospective and validation usage with an explicit accounting policy for input, output, cached and reasoning tokens.",
+      "limitations": "Provider counters differ. Missing usage is unknown, not zero. Fewer tokens do not imply a better or cheaper result across models."
+    },
+    {
+      "id": "cost",
+      "name": "Total monetary cost",
+      "direction": "minimize",
+      "unit": "declared_currency",
+      "definition": "Observed monetary expense attributable to a task and the supporting improvement process.",
+      "measurement": "Use the same declared currency and pricing date; include measured API, compute and required validation costs. Report human time separately unless a rate was fixed beforehand.",
+      "limitations": "Subscription opportunity costs and future amortization are assumptions. Do not treat an unbilled request as consuming no scarce resources."
+    },
+    {
+      "id": "compute",
+      "name": "Compute resource consumption",
+      "direction": "minimize",
+      "unit": "resource_seconds",
+      "definition": "Consumption of a specified compute resource under an agreed measurement boundary.",
+      "measurement": "Choose CPU core-seconds, GPU-seconds, energy or another explicit resource before comparison; retain separate counters for unlike resources.",
+      "limitations": "Hardware changes can invalidate comparisons. Do not add unlike resources into one unexplained number or infer utilization from elapsed time."
+    },
+    {
+      "id": "correctness",
+      "name": "Result correctness",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of independently checked correctness requirements satisfied under a fixed task rubric.",
+      "measurement": "Use acceptance tests or externally adjudicated criteria, preserving individual results and any hard failure condition.",
+      "limitations": "Tests can be incomplete. A high average cannot excuse violation of a mandatory criterion. Agent self-assessment is not an independent validator."
+    },
+    {
+      "id": "completion",
+      "name": "Accepted task completeness",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of the original agreed deliverables accepted as completed.",
+      "measurement": "Freeze the deliverable list and verify each item, including required delivery or deployment when in scope.",
+      "limitations": "A status message alone does not prove delivery. Changing scope after a run can hide abandoned work. Correctness and completeness must both be checked."
+    },
+    {
+      "id": "goal_alignment",
+      "name": "Alignment with the requested goal",
+      "direction": "maximize",
+      "unit": "rubric_score",
+      "definition": "Degree to which actions and outcomes satisfy the user's intended objective and explicit constraints.",
+      "measurement": "Use a predeclared task-specific rubric evaluated against the original request and accepted clarifications.",
+      "limitations": "Intent can be ambiguous and rubric judgments can disagree. Preserve disagreements rather than replacing the user's goal with an easily measured proxy."
+    },
+    {
+      "id": "verifiability",
+      "name": "Evidence coverage",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of material completion and performance claims linked to inspectable evidence.",
+      "measurement": "Enumerate required claims and check the existence, relevance and reproducibility of their supporting artifacts.",
+      "limitations": "More logs are not necessarily better evidence. Evidence existence does not establish authenticity or adequacy of the underlying test."
+    },
+    {
+      "id": "autonomy",
+      "name": "Autonomous accepted execution",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of eligible tasks completed correctly within the existing mandate without avoidable human intervention.",
+      "measurement": "Fix which decisions are authorized and which legitimately require a person, then count avoidable intervention separately from required decisions.",
+      "limitations": "Autonomy is bounded by authorization. Avoiding a required approval or silently reducing scope must never improve this score."
+    },
+    {
+      "id": "controllability",
+      "name": "Control response reliability",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of authorized stop, correction, resume and rollback requests executed within the declared limits.",
+      "measurement": "Exercise explicit control scenarios and record compliance, latency and unintended side effects.",
+      "limitations": "This is scenario-bound. An acknowledgment is not evidence that the underlying process stopped or that its effects were reversed."
+    },
+    {
+      "id": "safety",
+      "name": "Constraint preservation",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of declared safety, authority and data-handling constraints preserved during execution.",
+      "measurement": "Test named constraints and retain any critical violation as a hard failure independently of the aggregate fraction.",
+      "limitations": "No observed violation does not establish safety beyond the tested scenarios. Do not trade mandatory constraints for a better average."
+    },
+    {
+      "id": "predictability",
+      "name": "Outcome variability",
+      "direction": "minimize",
+      "unit": "declared_dispersion",
+      "definition": "Dispersion of a declared outcome metric over equivalent repeated tasks and configurations.",
+      "measurement": "Specify the outcome and dispersion estimator, report sample count and the complete outcome distribution where practical.",
+      "limitations": "Consistent failure is predictable but undesirable. A variance estimate from too few runs is unstable and does not measure correctness."
+    },
+    {
+      "id": "simplicity",
+      "name": "Operational surface area",
+      "direction": "minimize",
+      "unit": "required_components",
+      "definition": "Number of independently operated components required for the tested useful function.",
+      "measurement": "Inventory mandatory processes, stores and externally managed services; also report configuration and operator steps when relevant.",
+      "limitations": "A component count is a proxy. Merging components can hide coupling or increase maintenance burden. Compare the same useful functionality."
+    },
+    {
+      "id": "scalability",
+      "name": "Capacity under fixed service constraints",
+      "direction": "maximize",
+      "unit": "tasks_per_time_unit",
+      "definition": "Sustained task throughput while meeting fixed correctness, latency and resource constraints.",
+      "measurement": "Declare workload distribution, concurrency, resource budget and service constraints; measure steady-state throughput and tail behavior.",
+      "limitations": "Short bursts or easier tasks do not prove scale. A single-machine prototype is not evidence of multi-terabyte corpus performance."
+    },
+    {
+      "id": "resilience",
+      "name": "Recovery effectiveness",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of specified fault scenarios that preserve accepted outcomes or recover within declared bounds.",
+      "measurement": "Inject bounded faults and check outcome integrity, recovery time, duplication and resource use.",
+      "limitations": "Observed resilience applies to the injected faults. Retries can worsen non-transient failures or repeat irreversible actions."
+    },
+    {
+      "id": "maintainability",
+      "name": "Effort for a verified change",
+      "direction": "minimize",
+      "unit": "person_or_agent_seconds",
+      "definition": "Measured effort to implement and verify a comparable change in the system.",
+      "measurement": "Use a fixed change task and count discovery, editing, testing and rework; distinguish human and automated effort.",
+      "limitations": "Familiarity and task difficulty confound comparisons. Fewer files or lines do not establish maintainability by themselves."
+    },
+    {
+      "id": "adaptability",
+      "name": "Time to validated adaptation",
+      "direction": "minimize",
+      "unit": "seconds",
+      "definition": "Elapsed time from a specified environmental change to a verified adequate response.",
+      "measurement": "Introduce a declared change and measure detection, revised action and validation, including unnecessary changes made along the way.",
+      "limitations": "Rapid unverified rewriting is not useful adaptation. The new solution must preserve protected constraints and have a known applicability scope."
+    },
+    {
+      "id": "context_relevance",
+      "name": "Useful evidence retrieval",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Relevance of retrieved evidence to the current decision under a fixed relevance rubric.",
+      "measurement": "Measure useful retrieved items and missed necessary items separately; retain provenance and the retrieval budget.",
+      "limitations": "Precision alone can reward returning almost nothing. A relevance judgment does not prove a retrieved lesson is true or current."
+    },
+    {
+      "id": "reasoning_efficiency",
+      "name": "Useful decision work per budget",
+      "direction": "maximize",
+      "unit": "rubric_score_per_resource_unit",
+      "definition": "Verified decision value produced within a declared reasoning resource budget.",
+      "measurement": "Predefine necessary decisions or discriminating experiments, judge whether they resolve uncertainty, and report consumed time or tokens separately.",
+      "limitations": "This is a difficult research proxy, not an automatic transcript statistic. Long or short reasoning text alone does not establish value."
+    },
+    {
+      "id": "knowledge_reuse",
+      "name": "Beneficial reuse of prior evidence",
+      "direction": "maximize",
+      "unit": "fraction",
+      "definition": "Fraction of eligible new task lineages for which using prior evidence yields an accepted, measured benefit.",
+      "measurement": "Compare relevant reuse against a suitable control, include retrieval and update overhead, and count negative applications.",
+      "limitations": "A frequently loaded rule is not necessarily helpful. Repeated copies of one task are not independent evidence of transfer."
+    }
+  ]
+}

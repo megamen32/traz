@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.1",
+  "evaluation_id": "SYNTHETIC-example-replace-for-a-real-experiment",
+  "proposal_id": "REPLACE_WITH_IMPORTED_PROPOSAL_ID",
+  "scope": {
+    "project": "demo",
+    "harness": "codex@fixture-version",
+    "model": "fixture-model@1",
+    "environment": "fixture-environment@1",
+    "task_family": "fixture-resource-fetch"
+  },
+  "change_ref": "fixture:bounded-retry-v1",
+  "verifier": {
+    "kind": "reported",
+    "reference": "fixture:acceptance-report-not-real-evidence"
+  },
+  "holdout": {
+    "reference": "fixture:frozen-task-manifest-v1",
+    "frozen_at": "2026-01-01T00:00:00Z",
+    "discovery_session_ids": ["REPLACE_WITH_SOURCE_SESSION_SHA256"],
+    "task_ids": ["fixture-heldout-task-1"]
+  },
+  "started_at": "2026-01-02T00:00:00Z",
+  "primary_metric": "latency_seconds",
+  "pairs": [
+    {
+      "task_id": "fixture-heldout-task-1",
+      "baseline": {
+        "correctness": 1,
+        "completion": 1,
+        "latency_seconds": 100,
+        "tokens": 1000,
+        "cost": 0.05
+      },
+      "candidate": {
+        "correctness": 1,
+        "completion": 1,
+        "latency_seconds": 60,
+        "tokens": 700,
+        "cost": 0.03
+      },
+      "baseline_overhead": {
+        "latency_seconds": 5,
+        "tokens": 0,
+        "cost": 0
+      },
+      "candidate_overhead": {
+        "latency_seconds": 10,
+        "tokens": 100,
+        "cost": 0.005
+      }
+    }
+  ]
+}
