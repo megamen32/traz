@@ -65,6 +65,62 @@ Lossless import and normalized events, conservative mechanical observations,
 scoped experiment proposals, an append-only outcome ledger, and a sparse matrix
 whose empirical evidence is separate from its initial expert suggestions.
 
+### Orchestration decision: reuse one control loop
+
+**Frame:** an unfinished task can carry a mistaken interpretation forward along
+with useful history. Session length alone does not establish this failure.
+
+**Ideal final result:** work resumes from verified state without inheriting an
+unsupported belief, another coordinator, or replay of a completed assignment.
+
+**Conflict and resources:** continuity needs retained evidence, while reconsidering
+a false premise needs distance from the previous reasoning. Existing artifacts,
+checks, transcript references, Retro, original TRIZ and the current session owner
+provide the resources. Herder, when present, or the current executor already owns
+task admission, continuation, budgets and stop decisions.
+
+**Resolution:** separate persistent evidence from working context and trim the
+second controller. Expose TRAZ as a callable workflow or thin skill backed by the
+archive and CLI. It owns no scheduler, queue or agent retry loop. The current owner
+may request:
+
+- A fresh, read-only reviewer for one consequential unresolved contradiction.
+- A fresh executor when an open task keeps relying on a refuted premise, repeats
+  equivalent failed attempts without new evidence, or cannot reconcile its state.
+
+A routine fix stays with the current executor. A fresh session is conditional on
+an observed reason, not history length. The owner bounds review and transfer work,
+keeps one writer, and preserves user stops, permissions and remaining budgets.
+Neither reviewer nor executor starts a recursive review loop.
+
+| Operation | What changes | What it does not establish |
+| --- | --- | --- |
+| Account switch | Authorized execution identity or available allowance | Fresh context or corrected reasoning |
+| Model switch | The model used for subsequent work | Removal of inherited context or an independent verdict |
+| Fresh context | The working history supplied to a new session | Better results or freedom from model-level errors |
+
+The same model can receive fresh context; a different model is not a prerequisite.
+No effectiveness claim for either choice has been established here.
+
+Transfer the original goal and constraints, task/checkpoint identifiers, artifact
+versions, facts with evidence references, observed attempt results, explicitly
+unverified hypotheses, the remaining question or next action, acceptance criteria,
+owner and control limits. Do not fork the full history as trusted beliefs. A
+reviewer must inspect relevant primary evidence rather than only its predecessor's
+summary. A fresh executor continues only unfinished work.
+
+**Check:** repeated events must not duplicate execution; a transfer must retain one
+writer, stops and budgets; hypotheses must remain distinguishable from facts.
+Use existing receipts or focused mechanism checks, then observe the next natural
+task. Do not replay a completed production task to validate an ordinary correction.
+Count review and transfer costs before claiming improvement.
+
+**Implementation boundary:** archive, accounting, action records and scoped context
+are implemented CLI capabilities. Conditional caller instructions can request scoped
+context, but do not prove actual use. Automatic event-driven invocation, review
+selection and session transfer through the existing owner remain integration work.
+Installing a skill or querying context does not create that integration.
+
 ### Secondary problems and limits
 
 Compression does not replace a backup. Preserved transcripts can contain secrets;
@@ -76,10 +132,12 @@ does not imply that this first importer has been benchmarked at terabyte scale.
 
 ### Test that can reject this design
 
-Compare the same tasks under a baseline agent, original TRIZ, TRAZ without matrix,
-and TRAZ with matrix. Count failed tasks and total costs including retrospective
-analysis, verification and human rework. If the matrix adds no benefit, keep the
-corpus and evidence workflow and revise or remove matrix lookup.
+For a separate prospective evaluation, compare a baseline agent, original TRIZ,
+TRAZ without matrix and TRAZ with matrix under frozen task manifests and matched
+budgets. Use new task lineages rather than replaying completed production work as
+a prerequisite for an ordinary fix. Count failed tasks and total costs including
+retrospective analysis, verification and human rework. If the matrix adds no
+benefit, keep the corpus and evidence workflow and revise or remove matrix lookup.
 
 ## Method source
 

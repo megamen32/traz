@@ -4,6 +4,14 @@ The initial deliverable is an inspectable local prototype. Each extension should
 remove a demonstrated bottleneck, improve a measured result or reduce unnecessary
 work. An unused component is a candidate for removal.
 
+The archive, accounting, action registry and scoped-context CLI below are
+implemented. Conditional caller instructions can request that context, but do not
+establish automatic event handling or observed use. Automatic lifecycle calls and
+handoffs of active sessions are still integration work. The target
+is one existing control loop, owned by Herder or the current executor, with TRAZ
+as a callable workflow or skill and evidence store. TRAZ adds no scheduler, queue
+or independent agent retry loop.
+
 ## v0.1: preserve and inspect
 
 Provide the method, provisional parameter catalogue, sparse hypothesis matrix,
@@ -44,15 +52,26 @@ receipts cannot promote themselves to observed verification.
 
 ## Next: connect interventions to real consumers
 
-Connect retrospective analysis through a narrow evidence contract. Start with
-operator-selected cases and bounded review budgets. Review hypotheses for causal
-plausibility and owner of the proposed change. Do not create a new universal rule
-from every warning.
+Have the existing owner invoke retrospective analysis through a narrow evidence
+contract. Start with operator-selected cases and bounded review budgets. Review
+hypotheses for causal plausibility and owner of the proposed change. Do not create
+a new universal rule from every warning.
+
+Connect scoped context to the actual consumer before an applicable new task. For
+an unfinished task, a fresh reviewer or executor requires an observed reason such
+as a consequential contradiction or repeated failure without new evidence, not a
+long history. Transfer verified artifacts, source-backed facts and remaining work;
+keep hypotheses explicit, one writer active, and stops and budgets intact. Account
+switching, model switching and clearing context are separate operations, as defined
+in [TRIZ_DESIGN.md](TRIZ_DESIGN.md).
 
 **Acceptance:** a concrete intervention has a real source trace, a reproducible
 change, local acceptance evidence and a verified consumer path. Preserve the first
 use and any failure on a new natural task. Comparative efficacy and measured savings
 are separate claims; they are not a prerequisite for using a routine verified fix.
+An ordinary correction uses existing receipts or focused checks without replaying
+the completed assignment. Fresh context or another model is not evidence of a
+better outcome by itself.
 
 ## Then: automate experiments and scoped retrieval
 
@@ -67,16 +86,25 @@ more time and cost than it adds. Expire or revise applicability when context dri
 **Acceptance:** controlled comparisons show a useful effect on new task lineages,
 with no material protected-metric regression. The effect includes learning overhead.
 
-## Only with evidence: continuous operation
+## Only with evidence: integrate existing supervision
 
-Reuse existing session-complete signals and the supervisor's event system. Add
-incremental collection, resumable jobs, resource budgets and measured corpus-scale
-storage behavior. Introduce automatic deployment of scoped interventions only after
-the experiment and rollback path works reliably for that intervention class.
+Use the existing supervisor's lifecycle events to invoke bounded, incremental
+collection and selected analysis. Keep scheduling, queues, retries, continuations,
+resource budgets and stop enforcement in that owner. Add no TRAZ-owned scheduler,
+queue or orchestration loop. Resume interrupted invocations through the owner's
+existing mechanisms and deduplicate their effects using task and checkpoint
+identifiers. Measure corpus-scale storage behavior before expanding collection.
+
+Introduce automatic deployment of scoped interventions only after the acceptance
+and rollback path works reliably for that intervention class. A fresh reviewer is
+read-only; transferring execution preserves one writer and the remaining task.
+Neither operation automatically starts another review or repeats completed work.
 
 **Acceptance:** unattended collection survives interruption without source deletion
-or evidence duplication; failed experiments do not promote changes; rollback is
-observed to work; supervision consumes less effort than it saves.
+or evidence duplication; repeated events create no duplicate executor; user stops
+and budgets survive handoffs; failed experiments do not promote changes; rollback
+is observed to work. Measure the full supervision cost before claiming that this
+integration saves effort. These are acceptance targets, not established results.
 
 ## Research milestones
 
