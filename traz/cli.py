@@ -60,6 +60,22 @@ def parser() -> argparse.ArgumentParser:
     tpl.add_argument("proposal")
     review = sub.add_parser("review", help="import a structured, source-cited retrospective as hypotheses")
     review.add_argument("file", type=Path)
+    action = sub.add_parser("action", help="record an immutable intervention artifact without applying it")
+    action.add_argument("file", type=Path)
+    receipt = sub.add_parser("action-receipt", help="append a reported implementation or retirement receipt")
+    receipt.add_argument("file", type=Path)
+    check = sub.add_parser("action-verify", help="observe artifact bytes at an explicit local path; does not execute them")
+    check.add_argument("action")
+    check.add_argument("path", type=Path)
+    check.add_argument("--expected-sha256")
+    sub.add_parser("actions", help="inspect implementation receipts separately from efficacy evidence")
+    ctx = sub.add_parser("context", help="retrieve bounded applicable advice for a new task; never starts a session")
+    ctx.add_argument("--project", required=True)
+    ctx.add_argument("--task-family", required=True)
+    for key in ("harness", "model", "environment"):
+        ctx.add_argument("--" + key)
+    ctx.add_argument("--limit", type=int, default=5)
+    ctx.add_argument("--max-chars", type=int, default=6000)
     evs = sub.add_parser("evaluations", help="inspect the append-only reported experiment ledger")
     evs.add_argument("--proposal")
     mat = sub.add_parser("matrix", help="inspect the sparse hypothesis matrix and reported evidence")
@@ -143,6 +159,25 @@ def main(argv: list[str] | None = None) -> int:
                 if args.file.stat().st_size > 8 * 1024 * 1024:
                     raise ValueError("retrospective report exceeds 8 MiB")
                 result = import_review(store, json.loads(args.file.read_text(encoding="utf-8")))
+            elif args.command in ("action", "action-receipt", "action-verify", "actions", "context"):
+                from .actions import context, list_actions, record_action, record_receipt, verify_file
+                if args.command in ("action", "action-receipt"):
+                    if args.file.stat().st_size > 8 * 1024 * 1024:
+                        raise ValueError("action document exceeds 8 MiB")
+                    record = json.loads(args.file.read_text(encoding="utf-8"))
+                    result = record_action(store, record) if args.command == "action" else record_receipt(store, record)
+                elif args.command == "action-verify":
+                    result = verify_file(store, args.action, args.path, expected_sha256=args.expected_sha256)
+                    emit(result)
+                    return 0 if result["ok"] else 1
+                elif args.command == "actions":
+                    result = list_actions(store)
+                else:
+                    current = {key: getattr(args, key) for key in ("harness", "model", "environment") if getattr(args, key) is not None}
+                    result = context(store, args.project, args.task_family, context=current,
+                                     limit=args.limit, max_chars=args.max_chars)
+                    print(json.dumps(result, ensure_ascii=False, separators=(",", ":"), allow_nan=False))
+                    return 0
             elif args.command == "matrix":
                 scope = {key: getattr(args, key) for key in ("project", "harness", "model", "environment", "task_family") if getattr(args, key) is not None}
                 result = matrix(store, args.improve, args.protect, scope=scope or None)

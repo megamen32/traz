@@ -65,6 +65,18 @@ to existing event IDs establish traceability, not that an interpretation is true
 This interface can preserve successful mechanisms and negative cases as well as
 failure signals. No integrated LLM classifier is included in v0.1.
 
+## Return a concrete fix
+
+Use [the action contract](ACTIONS.md) to associate a proposal with an actual artifact,
+its owner, exact revision, applicability and retirement condition. Preserve local
+checks and consumer connection separately. A minimal conditional instruction in an
+existing project loader can call `context` before a relevant new task. A deterministic
+check in the existing builder or runner may remove the need for that instruction.
+
+Registering an artifact does not install it or start an agent. A new task actually
+using it is a separate observation. Completed historical tasks do not need to be
+replayed merely to make an ordinary verified fix available.
+
 ## Return an experiment outcome
 
 Use the existing task/test runner to perform a controlled comparison, then construct

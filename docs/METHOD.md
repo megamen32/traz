@@ -67,6 +67,13 @@ The v0.1 importer and deterministic detectors provide traceable observations. Th
 evidence interface records declared comparisons. It does not independently establish
 causation, execute a fleet-wide experiment or retrain model weights.
 
+The [action registry](ACTIONS.md) makes implementation and connection separately
+inspectable. It records immutable artifact revisions and reported receipts, checks
+explicit local file hashes and retrieves bounded applicable advice. A file hash
+does not prove test execution or deployment. An imported connection receipt remains
+reported. Routine engineering acceptance can justify using a fix without replaying
+a completed task; causal savings remain a separate claim.
+
 Learn from successes as well as failures. A successful alternative can suggest a
 mechanism, but unrelated easy and hard tasks are not a valid before/after comparison.
 A deliberate no-op is a useful result when no change is justified.

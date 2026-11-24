@@ -29,16 +29,30 @@ bytes, changing files are retried within a fixed bound, old archives survive sou
 disappearance, and a parser metadata refresh cannot alter cited events. These
 checks establish software behavior, not the causal effectiveness of a lesson.
 
-## Next: validate interventions from real sessions
+## v0.3: retain concrete interventions
+
+Immutable action revisions connect a source-cited proposal to an actual artifact
+and owner. Implementation, local checks, consumer connection and use have separate
+reported receipts. Explicit local hash observations verify artifact bytes only.
+Bounded context selects applicable active revisions and excludes drift, retirement
+and scoped regressions without starting or replaying an agent session.
+
+**Acceptance:** a verified artifact can be retrieved for an appropriate new task
+while its causal efficacy remains unknown. A foreign project, missing constraint,
+changed file or retired revision cannot silently receive the advice. Imported
+receipts cannot promote themselves to observed verification.
+
+## Next: connect interventions to real consumers
 
 Connect retrospective analysis through a narrow evidence contract. Start with
 operator-selected cases and bounded review budgets. Review hypotheses for causal
 plausibility and owner of the proposed change. Do not create a new universal rule
 from every warning.
 
-**Acceptance:** a first useful intervention has a real source trace, a reproducible
-change, a relevant baseline, measured total cost, acceptance evidence and an honest
-statement of remaining uncertainty.
+**Acceptance:** a concrete intervention has a real source trace, a reproducible
+change, local acceptance evidence and a verified consumer path. Preserve the first
+use and any failure on a new natural task. Comparative efficacy and measured savings
+are separate claims; they are not a prerequisite for using a routine verified fix.
 
 ## Then: automate experiments and scoped retrieval
 

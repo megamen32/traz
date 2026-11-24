@@ -33,8 +33,10 @@ can change a tool, code, workflow, check, or skill.
 - An append-only experiment ledger. Paired reported results include analysis and
   verification overhead. Supported results influence recommendations only in their
   exact tested scope; a regression revokes support for that change and scope.
+- Immutable intervention artifacts with separate implementation receipts, explicit
+  local hash checks, retirement and bounded advice for a matching new task.
 
-**v0.2 validates reported evidence.** It does not run an independent benchmark,
+**v0.3 separates concrete changes from efficacy claims.** It does not run an independent benchmark,
 call an LLM, deploy fixes, alter installed skills, or prove that real tasks improved.
 The code is ready for those integrations without pretending they already exist.
 
@@ -96,6 +98,17 @@ versions. A different configuration is a different claim.
 
 For structured retrospective findings use `review /path/to/review.json`.
 See [the retrospective input contract](docs/INTEGRATIONS.md).
+
+### Keep a usable fix without replaying completed work
+
+Record an actual code, check, process, skill or guidance artifact with `action`.
+Use `action-verify` to check its local bytes and `action-receipt` to preserve
+reported checks, connection, actual use or retirement. Retrieve bounded applicable
+advice with `context --project PROJECT --task-family FAMILY`.
+
+Artifact integrity, local acceptance, connection and efficacy are separate facts.
+The existing runner must consume the context or enforce the fix through its own
+gate. No historical session is restarted. See [the action contract](docs/ACTIONS.md).
 
 ### Connect existing session files
 
@@ -170,11 +183,12 @@ need their own preserved records. Compression is not a backup.
 
 ## Development priorities
 
-1. Add independently executed, versioned paired experiments and frozen task sets.
-2. Add an existing runner's session-complete trigger for the connected local sources.
-3. Expand scoped retrospective reviews while retaining counterevidence and source links.
-4. Measure retrieval and matrix value against budget-matched baselines.
-5. Only then add scoped automatic application and rollback of proven interventions.
+1. Connect concrete safeguards to their existing owner and verify the consumer path.
+2. Use bounded applicable advice in an existing runner on new natural tasks.
+3. Preserve observed uses, failures and costs without replaying completed work.
+4. Add versioned paired experiments when measuring causal efficacy is warranted.
+5. Measure retrieval and matrix value against budget-matched baselines before
+   broadening unattended application.
 
 See [architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md) and
 [provenance](docs/PROVENANCE.md). TRAZ uses original project code under the
