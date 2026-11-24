@@ -30,6 +30,12 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--root", type=Path, default=default_root(), help="private corpus directory, outside the source repository")
     sub = p.add_subparsers(dest="command", required=True)
     sub.add_parser("init", help="initialize an external corpus")
+    connect = sub.add_parser("connect", help="register explicit local transcript sources")
+    connect.add_argument("file", type=Path)
+    collect = sub.add_parser("collect", help="archive stable snapshots of connected sources")
+    collect.add_argument("--manifest", type=Path, help="register this source manifest before collecting")
+    collect.add_argument("--no-analyze", action="store_true")
+    sub.add_parser("sources", help="show connected sources and their last collection outcome")
     imp = sub.add_parser("ingest", help="archive and index transcript files without modifying the originals")
     imp.add_argument("paths", nargs="+", type=Path)
     imp.add_argument("--format", default="auto", help="auto, codex, opencode, json, jsonl, normalized, generic, or text")
@@ -42,6 +48,10 @@ def parser() -> argparse.ArgumentParser:
     show.add_argument("--events", action="store_true")
     ana = sub.add_parser("analyze", help="derive conservative observations and candidate experiments")
     ana.add_argument("session", help="SHA-256 snapshot ID")
+    met = sub.add_parser("metrics", help="measure observed Codex accounting without summing cumulative counters")
+    met.add_argument("session")
+    refresh = sub.add_parser("refresh-metadata", help="refresh parser coverage only if all cited events stay identical")
+    refresh.add_argument("session")
     pro = sub.add_parser("proposals", help="show proposals and reported evaluation state")
     pro.add_argument("--session")
     ev = sub.add_parser("evaluate", help="record a paired experiment report; never executes its contents")
@@ -81,6 +91,25 @@ def main(argv: list[str] | None = None) -> int:
         with Store(args.root.expanduser()) as store:
             if args.command == "init":
                 result = {"root": str(store.root.resolve()), "version": __version__, "status": "ready"}
+            elif args.command in ("connect", "collect", "sources"):
+                from .collect import collect, connections, load_manifest, save_manifest
+                if args.command == "sources":
+                    result = connections(store)
+                else:
+                    manifest_path = args.file if args.command == "connect" else args.manifest
+                    if manifest_path:
+                        if manifest_path.stat().st_size > 8 * 1024 * 1024:
+                            raise ValueError("source manifest exceeds 8 MiB")
+                        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                    else:
+                        manifest = load_manifest(store)
+                    if args.command == "connect":
+                        saved = save_manifest(store, manifest)
+                        result = {"status": "connected", "manifest": str(saved), "sources": connections(store)}
+                    else:
+                        result = collect(store, manifest, analyze_sessions=not args.no_analyze)
+                        emit(result)
+                        return 0 if result["coverage"]["complete"] else 1
             elif args.command == "ingest":
                 if args.session_id and len(args.paths) != 1:
                     raise ValueError("--session-id requires exactly one input file")
@@ -95,6 +124,11 @@ def main(argv: list[str] | None = None) -> int:
                     result["events"] = store.events(args.session)
             elif args.command == "analyze":
                 result = analyze(store, args.session)
+            elif args.command == "metrics":
+                from .metrics import metrics
+                result = metrics(store, args.session)
+            elif args.command == "refresh-metadata":
+                result = store.refresh_metadata(args.session)
             elif args.command == "proposals":
                 result = proposals(store, args.session)
             elif args.command == "evaluate":

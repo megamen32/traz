@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import gzip
 import hashlib
+from itertools import zip_longest
 import json
 import os
 from pathlib import Path
@@ -246,6 +247,36 @@ class Store:
         if not isinstance(data, bytes):
             raise TypeError("data must be bytes")
         return self._ingest(BytesIO(data), name, format, project, session_id)
+
+    def refresh_metadata(self, id: str) -> dict:
+        """Refresh parse coverage only when every existing event stays identical.
+
+        Authored reviews cite normalized event IDs. A parser upgrade must never
+        silently repoint that evidence. Changes to event interpretation require
+        a separate versioned migration, which this operation explicitly refuses.
+        """
+        source = self.session(id)
+        self._check_source(source["raw_path"], source["sha256"])
+        # Semantic source type and file framing differ, for example OpenCode
+        # messages exported as JSONL. Replay the originally observed framing.
+        encoding = source["metadata"].get("encoding")
+        parse_format = encoding if encoding in ("jsonl", "json", "text") else source["source_format"]
+        parser = parse_file(self.root / source["raw_path"], parse_format,
+                            compressed=True, source_name=source["source_name"])
+        with self.db:
+            self.db.execute("BEGIN IMMEDIATE")
+            for before, after in zip_longest(self.iter_events(source["id"]), parser):
+                if before != after:
+                    raise ValueError("Parser refresh would change cited events; no metadata was updated")
+            meta = dict(parser.metadata)
+            warnings = meta.pop("warnings", [])
+            self.db.execute("""UPDATE sessions SET source_format=?, parse_status=?,
+                warnings_json=?, metadata_json=? WHERE id=?""",
+                (meta["source_format"], meta["parse_status"], json.dumps(warnings, ensure_ascii=False),
+                 json.dumps(meta, ensure_ascii=False), source["id"]))
+        result = self.session(source["id"])
+        self._manifest(self.root / source["raw_path"], {"schema_version": "0.1", **result}, replace=True)
+        return result
 
     def verify(self, id: str | None = None) -> dict:
         sources = [self.session(id)] if id is not None else [self._row(row) for row in self.db.execute("SELECT * FROM sessions ORDER BY id")]

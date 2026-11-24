@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1",
+  "sources": [
+    {
+      "id": "example-codex-session",
+      "name": "Example local Codex rollout",
+      "path": "/absolute/path/to/rollout-example.jsonl",
+      "format": "codex",
+      "project": "example-project"
+    },
+    {
+      "id": "example-opencode-session",
+      "name": "Example local OpenCode export",
+      "path": "/absolute/path/to/opencode-export.json",
+      "format": "opencode",
+      "project": "example-project"
+    }
+  ]
+}

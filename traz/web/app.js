@@ -24,7 +24,13 @@ async function refresh() {
   $("evidence-count").textContent = summary.evaluations ?? summary.evaluation_count ?? 0;
   $("sessions").replaceChildren();
   if (!sessions.length) $("sessions").textContent = "Your first session starts the evidence trail.";
-  for (const session of sessions) $("sessions").append(item(session.source_name || session.id.slice(0, 12), `${session.project} · ${session.source_format} · ${session.events_count} events · ${session.parse_status}`, "Inspect", async () => { details(await api("/api/analyze/" + session.id, {method: "POST", body: ""})); }));
+  for (const session of sessions) $("sessions").append(item(session.source_name || session.id.slice(0, 12), `${session.project} · ${session.source_format} · ${session.events_count} events · ${session.parse_status}`, "Inspect", async () => {
+    const [analysis, metrics] = await Promise.all([
+      api("/api/analyze/" + session.id, {method: "POST", body: ""}),
+      api("/api/metrics/" + session.id)
+    ]);
+    details({session, metrics, analysis});
+  }));
   $("proposals").replaceChildren();
   if (!proposals.length) $("proposals").textContent = "No candidate experiments yet. No detected signal does not prove a session was efficient.";
   for (const proposal of proposals) {

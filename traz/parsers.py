@@ -17,6 +17,7 @@ from typing import Any, Iterator
 MAX_RECORD_BYTES = 2 * 1024 * 1024
 MAX_JSON_BYTES = 64 * 1024 * 1024
 MAX_WARNINGS = 50
+PARSER_VERSION = "0.2.0"
 FORMATS = ("auto", "jsonl", "json", "codex", "opencode", "normalized", "generic", "text")
 
 
@@ -104,6 +105,7 @@ class ParsedTranscript:
         "source_format": "unknown", "parse_status": "ok", "warnings": [],
         "warning_count": 0, "malformed_records": 0, "skipped_records": 0,
         "native_session_id": None, "session_metadata": {},
+        "parser_version": PARSER_VERSION, "retained_metadata_records": {},
     })
 
     def _open(self):
@@ -232,6 +234,14 @@ class ParsedTranscript:
                 except (ValueError, UnicodeDecodeError, RecursionError) as exc:
                     self._warn(f"Invalid JSONL record: {exc}", line=line_number, malformed=True)
 
+    def records(self) -> Iterator[tuple[Any, int | None]]:
+        """Stream bounded source records without changing normalized evidence IDs.
+
+        Metadata is finalized by consumption. This view is useful for accounting
+        records that belong to the original source but are not agent actions.
+        """
+        yield from self._records()
+
     def _event(self, record: dict, line: int | None, **updates) -> dict:
         meta = record.get("metadata", {})
         result = {
@@ -323,6 +333,14 @@ class ParsedTranscript:
             return
         kind = record.get("type")
         payload = record.get("payload", {})
+        if kind in ("world_state", "token_usage_record", "compacted") and isinstance(payload, dict):
+            self.metadata["source_format"] = "codex"
+            counts = self.metadata["retained_metadata_records"]
+            counts[kind] = counts.get(kind, 0) + 1
+            # Raw bytes retain accounting, environment and compaction history.
+            # They are not new actions. Replaying replacement history would
+            # duplicate work and shift existing evidence IDs.
+            return
         if kind in ("session_meta", "response_item", "event_msg", "turn_context") and isinstance(payload, dict):
             self.metadata["source_format"] = "codex"
             if kind == "session_meta":

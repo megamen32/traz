@@ -44,6 +44,12 @@ class InterfaceTests(unittest.TestCase):
         imported = json.loads(data)
         proposal = imported["analysis"]["proposals"][0]
         self.assertEqual(imported["session"]["parse_status"], "ok")
+        status, _, data = self.request("GET", "/api/metrics/" + imported["session"]["id"])
+        self.assertEqual(status, 200, data)
+        measured = json.loads(data)
+        self.assertEqual(measured["snapshot_id"], imported["session"]["id"])
+        self.assertIsNone(measured["monetary_cost"])
+        self.assertIsNone(measured["timing"]["active_seconds"])
         record = json.loads((REPO / "examples/evaluation-example.json").read_text())
         record["proposal_id"] = proposal["id"]
         record["holdout"]["discovery_session_ids"] = [imported["session"]["id"]]
@@ -89,6 +95,40 @@ class InterfaceTests(unittest.TestCase):
 
 
 class CLIWorkflowTests(unittest.TestCase):
+    def test_connect_collect_and_reuse_exact_snapshot_through_cli(self):
+        with TemporaryDirectory(prefix="traz-connect-cli-") as directory:
+            root = Path(directory) / "corpus"
+            manifest = Path(directory) / "sources.json"
+            manifest.write_text(json.dumps({"schema_version": "0.1", "sources": [{
+                "id": "synthetic-cli", "path": str(REPO / "examples/session-codex.jsonl"),
+                "project": "demo", "format": "codex"}]}))
+            def cli(*args, expected=0):
+                result = subprocess.run([sys.executable, "-m", "traz", "--root", str(root), *args],
+                                        cwd=REPO, capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, expected, result.stderr + result.stdout)
+                return json.loads(result.stdout)
+            connected = cli("connect", str(manifest))
+            self.assertEqual(connected["status"], "connected")
+            self.assertEqual(cli("sources")[0]["last_status"], "connected")
+            first = cli("collect")
+            self.assertEqual(first["coverage"]["archived"], 1)
+            second = cli("collect", "--manifest", str(manifest))
+            self.assertEqual(second["coverage"]["unchanged"], 1)
+            self.assertEqual(second["sources"][0]["analysis_status"], "cached")
+            self.assertEqual(len(cli("sessions")), 1)
+            refreshed = cli("refresh-metadata", first["sources"][0]["snapshot_id"])
+            self.assertEqual(refreshed["parse_status"], "ok")
+            measured = cli("metrics", refreshed["id"])
+            self.assertEqual(measured["snapshot_id"], refreshed["id"])
+            self.assertIsNone(measured["monetary_cost"])
+            source = Path(directory) / "malformed.jsonl"
+            source.write_text('{"type":"message","content":"known"}\n{bad}\n')
+            manifest.write_text(json.dumps({"schema_version": "0.1", "sources": [{
+                "id": "partial-cli", "path": str(source), "project": "demo"}]}))
+            partial = cli("collect", "--manifest", str(manifest), expected=1)
+            self.assertTrue(partial["coverage"]["archive_complete"])
+            self.assertFalse(partial["coverage"]["complete"])
+
     def test_source_checkout_cli_archive_roundtrip(self):
         with TemporaryDirectory(prefix="traz-cli-test-") as root:
             def cli(*args):

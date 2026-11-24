@@ -16,12 +16,20 @@ content, inspect traceable signals, and record an experiment whose outcome affec
 the local evidence view. A repeated import does not count as new experimental
 support. Repository tests prove software behavior, not learning effectiveness.
 
-## Next: connect real sessions and outcomes
+## v0.2: connect and account
 
-Choose a small, explicit collection of completed sessions from the existing harness.
-Read the original application format and export capability. Establish lineage,
-source version and retention policy. Preserve both successful and unsuccessful
-tasks. Verify original bytes after transfer.
+Explicit local source manifests now connect existing session files. Collection
+captures stable bytes, keeps immutable snapshots and logical lineage, reuses
+cached analysis and records missing, changing or partially parsed sources.
+Codex accounting cross-checks final counters against unique response records.
+Observed time, recorded turn duration, active work and billed cost stay distinct.
+
+**Acceptance:** repeated collection creates no duplicate snapshot for identical
+bytes, changing files are retried within a fixed bound, old archives survive source
+disappearance, and a parser metadata refresh cannot alter cited events. These
+checks establish software behavior, not the causal effectiveness of a lesson.
+
+## Next: validate interventions from real sessions
 
 Connect retrospective analysis through a narrow evidence contract. Start with
 operator-selected cases and bounded review budgets. Review hypotheses for causal

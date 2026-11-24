@@ -91,6 +91,9 @@ class Handler(BaseHTTPRequestHandler):
                     data = matrix(store, query.get("improve", [None])[0], query.get("protect", [None])[0], scope=scope or None)
                 elif url.path.startswith("/api/session/"):
                     data = store.session(url.path[len("/api/session/"):])
+                elif url.path.startswith("/api/metrics/"):
+                    from .metrics import metrics
+                    data = metrics(store, url.path[len("/api/metrics/"):])
                 else:
                     self.reply(404, {"error": "Not found"})
                     return

@@ -19,6 +19,10 @@ can change a tool, code, workflow, check, or skill.
 - Codex rollout JSONL, OpenCode JSON exports, normalized JSON/JSONL and plain text.
   Unsupported and malformed records remain in the original archive and are reported.
 - A local upload interface, or a CLI that can be used by an existing agent runner.
+- Connected, explicit local transcript sources: stable snapshot capture, collection
+  receipts, deduplication and bounded retry when a source changes during copying.
+- Codex usage accounting that cross-checks final cumulative counters against unique
+  response records, separates cached input, and leaves billed money unknown.
 - Conservative observations of repeated calls, repeated reads and explicit linked
   tool failures. These are investigation signals, not automatic causal diagnoses.
 - Structured retrospective import with source-event citations, an ideal final
@@ -30,7 +34,7 @@ can change a tool, code, workflow, check, or skill.
   verification overhead. Supported results influence recommendations only in their
   exact tested scope; a regression revokes support for that change and scope.
 
-**v0.1 validates reported evidence.** It does not run an independent benchmark,
+**v0.2 validates reported evidence.** It does not run an independent benchmark,
 call an LLM, deploy fixes, alter installed skills, or prove that real tasks improved.
 The code is ready for those integrations without pretending they already exist.
 
@@ -67,6 +71,7 @@ traz --help
 python3 -m traz --root /path/to/private/traz-corpus ingest /path/to/session.jsonl --project my-project
 python3 -m traz --root /path/to/private/traz-corpus sessions
 python3 -m traz --root /path/to/private/traz-corpus analyze SESSION_SHA256
+python3 -m traz --root /path/to/private/traz-corpus metrics SESSION_SHA256
 python3 -m traz --root /path/to/private/traz-corpus proposals
 python3 -m traz --root /path/to/private/traz-corpus evaluation-template PROPOSAL_ID > /path/to/experiment.json
 ```
@@ -91,6 +96,28 @@ versions. A different configuration is a different claim.
 
 For structured retrospective findings use `review /path/to/review.json`.
 See [the retrospective input contract](docs/INTEGRATIONS.md).
+
+### Connect existing session files
+
+Copy [the example source manifest](examples/sources-example.json), choose explicit
+local paths and project scopes, and run:
+
+```bash
+python3 -m traz --root /path/to/private/traz-corpus connect /path/to/sources.json
+python3 -m traz --root /path/to/private/traz-corpus collect
+python3 -m traz --root /path/to/private/traz-corpus sources
+```
+
+`collect` can be invoked again by an existing runner. It archives new stable bytes,
+reuses unchanged snapshots and keeps the native session lineage. It does not create
+a watcher or schedule. Exit status 1 means incomplete collection, parsing or
+analysis; inspect `coverage.archive_complete` separately from analysis coverage.
+Missing sources retain their previous archives and collection receipts.
+
+[Collection](docs/COLLECTION.md) and [metrics](docs/METRICS.md) describe the limits.
+After a parser upgrade, `refresh-metadata SESSION_SHA256` refreshes coverage only
+if **every indexed event is identical**. A change that would repoint a review's
+evidence is refused. Raw originals and authored reviews remain unchanged.
 
 ### Run the complete synthetic demonstration
 
@@ -144,8 +171,8 @@ need their own preserved records. Compression is not a backup.
 ## Development priorities
 
 1. Add independently executed, versioned paired experiments and frozen task sets.
-2. Connect existing retrospective agents through the normalized input contract.
-3. Add incremental ingestion from selected hosts without deleting native history.
+2. Add an existing runner's session-complete trigger for the connected local sources.
+3. Expand scoped retrospective reviews while retaining counterevidence and source links.
 4. Measure retrieval and matrix value against budget-matched baselines.
 5. Only then add scoped automatic application and rollback of proven interventions.
 
