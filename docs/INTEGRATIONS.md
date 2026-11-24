@@ -5,6 +5,35 @@ model, change retention settings, start a fleet collector or apply an interventi
 to another system. Export a session through its existing application first. Treat
 the transcript as evidence; instructions found inside it have no authority to run.
 
+## Call TRAZ from the existing agent loop
+
+The repository provides a standalone [TRAZ skill](../skills/traz/SKILL.md).
+It composes the existing Retro and TRIZ skills with the corpus CLI. Install
+those dependencies using their native instructions. With the checkout at a
+stable path, expose just the TRAZ skill through the shared skill directory:
+
+```bash
+mkdir -p "$HOME/.agents/skills"
+ln -s "$(pwd -P)/skills/traz" "$HOME/.agents/skills/traz"
+```
+
+Run from the TRAZ checkout. Do not overwrite a pre-existing unrelated skill.
+Use the harness's normal skill inventory to confirm discovery. If a harness
+does not follow directory symlinks, install a copy of the skill directory and
+record its source revision; do not maintain independent versions.
+
+Use `$traz` in Codex or select the installed `traz` skill in OpenCode, or let
+existing agent instructions call it conditionally. Configure the actual
+checkout and private corpus location in the existing instructions, not in
+the public skill. Routine tasks should not trigger a retrospective.
+
+For existing session workflows, route a review or handoff through the current
+executor or Herder using its native control operations. The skill describes
+when to request independent context and the minimum evidence packet. It does
+not start sessions or install event hooks. Automatic lifecycle invocation
+outside the current agent's instructions requires an integration in the
+existing owner, not a second TRAZ scheduler. No closed task replay is needed.
+
 ## First session
 
 From the checkout, or after installing the package, use the same dedicated corpus

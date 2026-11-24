@@ -1,5 +1,7 @@
 # TRAZ
 
+Use the [TRAZ skill](skills/traz/SKILL.md) with the existing agent loop; see [installation and integration](docs/INTEGRATIONS.md#call-traz-from-the-existing-agent-loop).
+
 **Theory of Resolving Agentic Contradictions**
 
 [Русский](README.ru.md) · [Method](docs/METHOD.md) · [Design with TRIZ](docs/TRIZ_DESIGN.md) · [Evaluation](docs/EVALUATION.md)

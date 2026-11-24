@@ -1,5 +1,7 @@
 # ТРАЗ
 
+Используйте [навык TRAZ](skills/traz/SKILL.md) внутри существующего цикла агента: [установка и подключение](docs/INTEGRATIONS.md#call-traz-from-the-existing-agent-loop).
+
 **Теория решения агентных задач.**
 
 [English](README.md) · [Проектирование по ТРИЗ](docs/TRIZ_DESIGN.md) · [Метод](docs/METHOD.md)
