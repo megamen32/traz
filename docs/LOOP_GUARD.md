@@ -28,7 +28,16 @@ project, copy the file somewhere stable and add to `~/.claude/settings.json`:
 
 The script reads one JSON object on stdin with `hook_event_name`
 (`UserPromptSubmit` or `PostToolUse`) and `session_id`, and prints Claude Code
-hook output. Codex and OpenCode hook support has not been tested here.
+hook output. OpenCode hook support has not been tested here.
+
+## Codex
+
+Codex CLI 0.170.0 uses the same event names, input fields and
+`hookSpecificOutput.additionalContext` output (checked against the schemas in
+the installed binary, not yet against a live session). Hooks need
+`hooks = true` under `[features]` in `~/.codex/config.toml`. Add the command
+to `~/.codex/hooks.json` under `UserPromptSubmit` and `PostToolUse` (matcher
+`*`). Codex runs a new hook only after you trust it in the `/hooks` review.
 
 ## Status
 
