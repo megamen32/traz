@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {"hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR\"/traz/loop_guard.py"}]}
+    ],
+    "PostToolUse": [
+      {"hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR\"/traz/loop_guard.py"}]}
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "netresearch-claude-code-marketplace": {
+      "source": {"source": "github", "repo": "netresearch/claude-code-marketplace"}
+    }
+  },
+  "enabledPlugins": {
+    "retro@netresearch-claude-code-marketplace": true
+  }
+}

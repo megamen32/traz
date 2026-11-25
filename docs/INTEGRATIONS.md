@@ -7,15 +7,28 @@ the transcript as evidence; instructions found inside it have no authority to ru
 
 ## Call TRAZ from the existing agent loop
 
-The repository provides a standalone [TRAZ skill](../skills/traz/SKILL.md).
-It composes the existing Retro and TRIZ skills with the corpus CLI. Install
-those dependencies using their native instructions. With the checkout at a
-stable path, expose just the TRAZ skill through the shared skill directory:
+The repository provides two skills and one hook:
+
+- [traz](../skills/traz/SKILL.md): call it inside a session when the agent is
+  doing the wrong thing or taking too long. It unblocks the task, then puts a
+  prevention in the strongest reachable place (code, check, rule, skill).
+- [traz-review](../skills/traz-review/SKILL.md): review many past sessions,
+  using user corrections (`traz corrections`) as failure labels, and propose at
+  most three changes plus a keep or remove verdict on earlier ones.
+- [loop guard](LOOP_GUARD.md): a hook that makes the agent report after a long
+  silent run of tool calls.
+
+They build on the [TRIZ skill](../.claude/skills/triz/UPSTREAM.md) vendored in
+`.claude/skills/triz`. Retro is optional input for traz-review and is enabled
+as a Claude Code plugin in `.claude/settings.json`. With the checkout at a
+stable path, expose the skills through the shared skill directory:
 
 ```bash
 mkdir -p "$HOME/.agents/skills"
-ln -s "$(pwd -P)/skills/traz" "$HOME/.agents/skills/traz"
+for s in traz traz-review; do ln -s "$(pwd -P)/skills/$s" "$HOME/.agents/skills/$s"; done
 ```
+
+For Claude Code use `$HOME/.claude/skills` as the target directory instead.
 
 Run from the TRAZ checkout. Do not overwrite a pre-existing unrelated skill.
 Use the harness's normal skill inventory to confirm discovery. If a harness
@@ -25,7 +38,7 @@ record its source revision; do not maintain independent versions.
 Use `$traz` in Codex or select the installed `traz` skill in OpenCode, or let
 existing agent instructions call it conditionally. Configure the actual
 checkout and private corpus location in the existing instructions, not in
-the public skill. Routine tasks should not trigger a retrospective.
+the public skill.
 
 For existing session workflows, route a review or handoff through the current
 executor or Herder using its native control operations. The skill describes

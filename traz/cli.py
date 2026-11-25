@@ -48,6 +48,8 @@ def parser() -> argparse.ArgumentParser:
     show.add_argument("--events", action="store_true")
     ana = sub.add_parser("analyze", help="derive conservative observations and candidate experiments")
     ana.add_argument("session", help="SHA-256 snapshot ID")
+    cor = sub.add_parser("corrections", help="find user corrections and the work that preceded each one")
+    cor.add_argument("session")
     met = sub.add_parser("metrics", help="measure observed Codex accounting without summing cumulative counters")
     met.add_argument("session")
     refresh = sub.add_parser("refresh-metadata", help="refresh parser coverage only if all cited events stay identical")
@@ -140,6 +142,9 @@ def main(argv: list[str] | None = None) -> int:
                     result["events"] = store.events(args.session)
             elif args.command == "analyze":
                 result = analyze(store, args.session)
+            elif args.command == "corrections":
+                from .corrections import corrections
+                result = corrections(store, args.session)
             elif args.command == "metrics":
                 from .metrics import metrics
                 result = metrics(store, args.session)
